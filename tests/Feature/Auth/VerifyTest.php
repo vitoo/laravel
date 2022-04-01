@@ -3,21 +3,21 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use Tests\TestCase;
-use Livewire\Livewire;
-use Illuminate\Support\Facades\Hash;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
+use Livewire\Livewire;
+use Tests\TestCase;
 
 class VerifyTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_view_verification_page()
     {
         $user = User::factory()->create([
@@ -31,7 +31,9 @@ class VerifyTest extends TestCase
             ->assertSeeLivewire('auth.verify');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_resend_verification_email()
     {
         $user = User::factory()->create();
@@ -43,7 +45,9 @@ class VerifyTest extends TestCase
             ->assertEmitted('resent');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_verify()
     {
         $user = User::factory()->create([
@@ -53,7 +57,7 @@ class VerifyTest extends TestCase
         Auth::login($user);
 
         $url = URL::temporarySignedRoute('verification.verify', Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)), [
-            'id' => $user->getKey(),
+            'id'   => $user->getKey(),
             'hash' => sha1($user->getEmailForVerification()),
         ]);
 

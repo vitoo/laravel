@@ -2,23 +2,28 @@
 
 namespace App\Http\Livewire\Auth;
 
-use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Login extends Component
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $email = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $password = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     public $remember = false;
 
     protected $rules = [
-        'email' => ['required', 'email'],
+        'email'    => ['required', 'email'],
         'password' => ['required'],
     ];
 

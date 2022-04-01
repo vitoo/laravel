@@ -3,28 +3,30 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use Tests\TestCase;
-use Livewire\Livewire;
-use Illuminate\Support\Facades\Hash;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Livewire\Livewire;
+use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    function registration_page_contains_livewire_component()
+    /**
+     * @test
+     */
+    public function registration_page_contains_livewire_component()
     {
         $this->get(route('register'))
             ->assertSuccessful()
             ->assertSeeLivewire('auth.register');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function is_redirected_if_already_logged_in()
     {
         $user = User::factory()->create();
@@ -35,8 +37,10 @@ class RegisterTest extends TestCase
             ->assertRedirect(route('home'));
     }
 
-    /** @test */
-    function a_user_can_register()
+    /**
+     * @test
+     */
+    public function a_user_can_register()
     {
         Event::fake();
 
@@ -54,8 +58,10 @@ class RegisterTest extends TestCase
         Event::assertDispatched(Registered::class);
     }
 
-    /** @test */
-    function name_is_required()
+    /**
+     * @test
+     */
+    public function name_is_required()
     {
         Livewire::test('auth.register')
             ->set('name', '')
@@ -63,8 +69,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['name' => 'required']);
     }
 
-    /** @test */
-    function email_is_required()
+    /**
+     * @test
+     */
+    public function email_is_required()
     {
         Livewire::test('auth.register')
             ->set('email', '')
@@ -72,8 +80,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['email' => 'required']);
     }
 
-    /** @test */
-    function email_is_valid_email()
+    /**
+     * @test
+     */
+    public function email_is_valid_email()
     {
         Livewire::test('auth.register')
             ->set('email', 'tallstack')
@@ -81,8 +91,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['email' => 'email']);
     }
 
-    /** @test */
-    function email_hasnt_been_taken_already()
+    /**
+     * @test
+     */
+    public function email_hasnt_been_taken_already()
     {
         User::factory()->create(['email' => 'tallstack@example.com']);
 
@@ -92,8 +104,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['email' => 'unique']);
     }
 
-    /** @test */
-    function see_email_hasnt_already_been_taken_validation_message_as_user_types()
+    /**
+     * @test
+     */
+    public function see_email_hasnt_already_been_taken_validation_message_as_user_types()
     {
         User::factory()->create(['email' => 'tallstack@example.com']);
 
@@ -105,8 +119,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['email' => 'unique']);
     }
 
-    /** @test */
-    function password_is_required()
+    /**
+     * @test
+     */
+    public function password_is_required()
     {
         Livewire::test('auth.register')
             ->set('password', '')
@@ -115,8 +131,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['password' => 'required']);
     }
 
-    /** @test */
-    function password_is_minimum_of_eight_characters()
+    /**
+     * @test
+     */
+    public function password_is_minimum_of_eight_characters()
     {
         Livewire::test('auth.register')
             ->set('password', 'secret')
@@ -125,8 +143,10 @@ class RegisterTest extends TestCase
             ->assertHasErrors(['password' => 'min']);
     }
 
-    /** @test */
-    function password_matches_password_confirmation()
+    /**
+     * @test
+     */
+    public function password_matches_password_confirmation()
     {
         Livewire::test('auth.register')
             ->set('email', 'tallstack@example.com')

@@ -2,26 +2,33 @@
 
 namespace App\Http\Livewire\Auth\Passwords;
 
-use App\Providers\RouteServiceProvider;
-use Livewire\Component;
-use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
+use Livewire\Component;
 
 class Reset extends Component
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $token;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $email;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $password;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $passwordConfirmation;
 
     public function mount($token)
@@ -33,16 +40,16 @@ class Reset extends Component
     public function resetPassword()
     {
         $this->validate([
-            'token' => 'required',
-            'email' => 'required|email',
+            'token'    => 'required',
+            'email'    => 'required|email',
             'password' => 'required|min:8|same:passwordConfirmation',
         ]);
 
         $response = $this->broker()->reset(
             [
-                'token' => $this->token,
-                'email' => $this->email,
-                'password' => $this->password
+                'token'    => $this->token,
+                'email'    => $this->email,
+                'password' => $this->password,
             ],
             function ($user, $password) {
                 $user->password = Hash::make($password);
@@ -76,6 +83,11 @@ class Reset extends Component
         return Password::broker();
     }
 
+    public function render()
+    {
+        return view('livewire.auth.passwords.reset')->extends('layouts.auth');
+    }
+
     /**
      * Get the guard to be used during password reset.
      *
@@ -84,10 +96,5 @@ class Reset extends Component
     protected function guard()
     {
         return Auth::guard();
-    }
-
-    public function render()
-    {
-        return view('livewire.auth.passwords.reset')->extends('layouts.auth');
     }
 }

@@ -13,7 +13,9 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_view_login_page()
     {
         $this->get(route('login'))
@@ -21,7 +23,9 @@ class LoginTest extends TestCase
             ->assertSeeLivewire('auth.login');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function is_redirected_if_already_logged_in()
     {
         $user = User::factory()->create();
@@ -32,7 +36,9 @@ class LoginTest extends TestCase
             ->assertRedirect(route('home'));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function a_user_can_login()
     {
         $user = User::factory()->create(['password' => Hash::make('password')]);
@@ -45,7 +51,9 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function is_redirected_to_the_home_page_after_login()
     {
         $user = User::factory()->create(['password' => Hash::make('password')]);
@@ -57,7 +65,9 @@ class LoginTest extends TestCase
             ->assertRedirect(route('home'));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function email_is_required()
     {
         $user = User::factory()->create(['password' => Hash::make('password')]);
@@ -68,7 +78,9 @@ class LoginTest extends TestCase
             ->assertHasErrors(['email' => 'required']);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function email_must_be_valid_email()
     {
         $user = User::factory()->create(['password' => Hash::make('password')]);
@@ -80,7 +92,9 @@ class LoginTest extends TestCase
             ->assertHasErrors(['email' => 'email']);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function password_is_required()
     {
         $user = User::factory()->create(['password' => Hash::make('password')]);
@@ -91,7 +105,9 @@ class LoginTest extends TestCase
             ->assertHasErrors(['password' => 'required']);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function bad_login_attempt_shows_message()
     {
         $user = User::factory()->create();

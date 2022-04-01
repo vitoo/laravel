@@ -11,7 +11,9 @@ class LogoutTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     */
     public function an_authenticated_user_can_log_out()
     {
         $user = User::factory()->create();
@@ -23,7 +25,9 @@ class LogoutTest extends TestCase
         $this->assertFalse(Auth::check());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function an_unauthenticated_user_can_not_log_out()
     {
         $this->post(route('logout'))
