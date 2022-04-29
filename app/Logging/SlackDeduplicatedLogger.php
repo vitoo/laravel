@@ -26,7 +26,6 @@ class SlackDeduplicatedLogger
             $config['short'] ?? false,
             $config['context'] ?? true,
             Logger::DEBUG,
-
             $config['bubble'] ?? true,
             $config['exclude_fields'] ?? []
         );
