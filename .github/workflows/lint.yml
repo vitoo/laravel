@@ -1,0 +1,29 @@
+name: Lint
+on:
+  - push
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: phplint, php-cs-fixer
+
+      - name: Check syntax
+        run: phplint --no-cache --no-interaction .
+
+      - name: Run PHP CS Fixer
+        run: php-cs-fixer fix --using-cache=no
+
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.12.0
+        with:
+          commit_message: Apply php-cs-fixer changes
