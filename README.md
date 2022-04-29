@@ -4,7 +4,8 @@
 - Turbolinks   
 - User roles
 - php cs fixer
-
+- php stan
+- spatie laravel health
 
 ### git pre commit = php-cs-fixer fix 
 
